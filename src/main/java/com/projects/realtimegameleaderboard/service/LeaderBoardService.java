@@ -9,10 +9,16 @@ import org.springframework.stereotype.Service;
 public class LeaderBoardService {
 
     @Autowired
-    private RedisTemplate<Integer,Integer> redisTemplate;
+    private RedisTemplate<String,Integer> redisTemplate;
+
     public void setScore(PlayerInfo playerInfo)
     {
-        redisTemplate.opsForValue().set(playerInfo.getPlayerId(),playerInfo.getPlayerScore());
+        String playerId = String.valueOf(playerInfo.getPlayerId());
+        redisTemplate.opsForValue().set(playerId, playerInfo.getPlayerScore());
     }
 
+    public Integer getValue(String key) {
+        Integer score = redisTemplate.opsForValue().get(key);
+        return score != null ? score : 0;
+    }
 }

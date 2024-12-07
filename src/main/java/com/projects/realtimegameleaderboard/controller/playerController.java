@@ -3,9 +3,7 @@ package com.projects.realtimegameleaderboard.controller;
 import com.projects.realtimegameleaderboard.dto.PlayerInfo;
 import com.projects.realtimegameleaderboard.service.LeaderBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
 
@@ -18,5 +16,10 @@ public class playerController {
         System.out.println(playerInfo.getPlayerId());
         leaderBoardService.setScore(playerInfo);
         return playerInfo;
+    }
+    @GetMapping(value="/get-score/{playerId}")
+    Integer getScore(@PathVariable String playerId){
+        System.out.println(playerId);
+        return leaderBoardService.getValue(playerId);
     }
 }
