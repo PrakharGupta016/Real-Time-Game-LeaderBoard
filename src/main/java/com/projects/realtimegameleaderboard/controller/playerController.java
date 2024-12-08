@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.Set;
 
 @RestController
 public class playerController {
@@ -17,9 +18,8 @@ public class playerController {
         leaderBoardService.setScore(playerInfo);
         return playerInfo;
     }
-    @GetMapping(value="/get-score/{playerId}")
-    Integer getScore(@PathVariable String playerId){
-        System.out.println(playerId);
-        return leaderBoardService.getValue(playerId);
+    @GetMapping(value="/get-leaderboard")
+    Set<Object> getScore(){
+        return leaderBoardService.getLeaderboardAscending();
     }
 }
