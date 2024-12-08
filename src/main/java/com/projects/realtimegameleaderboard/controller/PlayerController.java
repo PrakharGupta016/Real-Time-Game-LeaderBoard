@@ -6,17 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.Set;
 
 @RestController
-public class playerController {
+public class PlayerController {
     @Autowired
     private LeaderBoardService leaderBoardService;
 
     @PostMapping(value = "/send-score")
     ResponseEntity<PlayerInfo> sendScore(@RequestBody PlayerInfo playerInfo) throws InterruptedException {
-        System.out.println(playerInfo.getPlayerId());
         leaderBoardService.setScore(playerInfo);
         return ResponseEntity.ok(playerInfo);
     }
