@@ -14,17 +14,16 @@ public class LeaderBoardService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public void setScore(PlayerInfo playerInfo)
-    {
-        String playerId = String.valueOf(playerInfo.getPlayerId());
-        redisTemplate.opsForZSet().add("gameLeaderBoard",playerInfo.getPlayerId(),playerInfo.getPlayerScore());
+    public void setScore(PlayerInfo playerInfo) {
+        redisTemplate.opsForZSet().add("gameLeaderBoard", playerInfo.getPlayerId(), playerInfo.getPlayerScore());
     }
 
-//    public Integer getValue(String key) {
-//        Integer score = redisTemplate.opsForValue().get(key);
-//        return score != null ? score : 0;
-//    }
-public Set<Object> getLeaderboardAscending() {
-    return Collections.singleton(redisTemplate.opsForZSet().rangeWithScores("gameLeaderBoard", 0, -1));
-}
+    public Set<Object> getLeaderboardAscending() {
+        return Collections.singleton(redisTemplate.opsForZSet().rangeWithScores("gameLeaderBoard", 0, -1));
+    }
+
+    public Set<Object> getLeaderboardDescending()
+    {
+        return Collections.singleton(redisTemplate.opsForZSet().reverseRangeWithScores("gameLeaderBoard", 0, -1));
+    }
 }
