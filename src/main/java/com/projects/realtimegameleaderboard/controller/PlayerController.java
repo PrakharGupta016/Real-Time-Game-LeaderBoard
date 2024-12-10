@@ -29,4 +29,5 @@ public class PlayerController {
     {
         return ResponseEntity.ok(leaderBoardService.getLeaderboardDescending());
     }
+
 }

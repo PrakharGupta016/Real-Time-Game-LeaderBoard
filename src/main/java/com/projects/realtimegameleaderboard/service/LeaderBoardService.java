@@ -4,6 +4,7 @@ import com.projects.realtimegameleaderboard.dto.PlayerData;
 import com.projects.realtimegameleaderboard.dto.PlayerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,8 +15,13 @@ public class LeaderBoardService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Autowired
+    private SimpMessagingTemplate simpleMessageTemplate;
+
     public void setScore(PlayerInfo playerInfo) {
         redisTemplate.opsForZSet().add("gameLeaderBoard", playerInfo.getPlayerId(), playerInfo.getPlayerScore());
+        getLeaderboardDescending();
+
     }
 
     public Set<Object> getLeaderboardAscending() {
@@ -24,6 +30,8 @@ public class LeaderBoardService {
 
     public Set<Object> getLeaderboardDescending()
     {
-        return Collections.singleton(redisTemplate.opsForZSet().reverseRangeWithScores("gameLeaderBoard", 0, -1));
+        Set<Object> data =  Collections.singleton(redisTemplate.opsForZSet().reverseRangeWithScores("gameLeaderBoard", 0, -1));
+        simpleMessageTemplate.convertAndSend("/topic/leaderboard",data);
+        return data;
     }
 }
