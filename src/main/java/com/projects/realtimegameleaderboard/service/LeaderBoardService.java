@@ -1,6 +1,5 @@
 package com.projects.realtimegameleaderboard.service;
 
-import com.projects.realtimegameleaderboard.dto.PlayerData;
 import com.projects.realtimegameleaderboard.dto.PlayerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -40,6 +39,5 @@ public class LeaderBoardService {
     void sendLeaderboardUpdateAsync() {
         Set<Object> data = Collections.singleton(redisTemplate.opsForZSet().reverseRangeWithScores("gameLeaderBoard", 0, -1));
         simpleMessageTemplate.convertAndSend("/topic/leaderboard", data);
-        return;
     }
 }
