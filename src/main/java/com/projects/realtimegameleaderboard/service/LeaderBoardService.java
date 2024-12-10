@@ -20,6 +20,7 @@ public class LeaderBoardService {
 
     public void setScore(PlayerInfo playerInfo) {
         redisTemplate.opsForZSet().add("gameLeaderBoard", playerInfo.getPlayerId(), playerInfo.getPlayerScore());
+//        TODO use some msg queue do it async and buffer
         getLeaderboardDescending();
 
     }
